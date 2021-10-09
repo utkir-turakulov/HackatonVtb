@@ -1,0 +1,31 @@
+version: "3"
+services:
+  testdb:
+    image: postgres
+    restart: always
+    container_name: more_tech_db
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=mysecretpassword"
+      - "POSTGRES_DB=postgres"
+    ports:
+      - 44217:5432
+
+  datahub:
+    image: linkedin/datahub-gms
+    container_name: datahub
+    environment:
+      - ADVERTISED_HOST=localhost
+      - ADVERTISED_PORT=9002
+    ports:
+      - "9002:9002"
+
+  datahub-frontend:
+    image: linkedin/datahub-frontend-react
+    container_name: datahub-frontend
+    environment:
+      - ADVERTISED_HOST=localhost
+      - ADVERTISED_PORT=9003
+    ports:
+      - "9003:9003"
+

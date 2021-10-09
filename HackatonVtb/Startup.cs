@@ -1,7 +1,11 @@
+using DAL;
+using DAL.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +25,12 @@ namespace HackatonVtb
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<DataHubContext>(options =>
+                options.UseNpgsql(Configuration.GetSection("ConnectionStrings").GetSection("ConnectionString").Value));
+ 
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<DataHubContext>();
+            
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -49,6 +59,9 @@ namespace HackatonVtb
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+            
+            app.UseAuthentication();    // подключение аутентификации
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
