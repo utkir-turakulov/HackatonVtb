@@ -1,3 +1,4 @@
+using BLL.Services;
 using DAL;
 using DAL.Models;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,10 @@ namespace HackatonVtb
                 .AddEntityFrameworkStores<DataHubContext>();
             
             services.AddControllersWithViews();
+
+            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IDatasetParseSevice, DatasetParseSevice>();
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

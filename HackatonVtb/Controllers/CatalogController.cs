@@ -11,6 +11,6 @@ namespace HackatonVtb.Controllers
     [ApiController]
     public class CatalogController : ControllerBase
     {
-        public async Task <>
+       
     }
 }
